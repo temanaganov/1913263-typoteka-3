@@ -1,5 +1,7 @@
 'use strict';
 
+const fs = require(`fs`);
+
 const getRandomInt = (min, max) => {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -23,8 +25,20 @@ const getRandomDate = (min, max = Date.now()) => {
   return new Date(getRandomInt(minTimestamp, maxTimestamp));
 };
 
+const writeJSONFile = (path, data) => {
+  try {
+    fs.writeFileSync(path, JSON.stringify(data, null, 2));
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
+
+  console.info(`Operation success. File created.`);
+};
+
 module.exports = {
   getRandomInt,
   shuffle,
   getRandomDate,
+  writeJSONFile,
 };

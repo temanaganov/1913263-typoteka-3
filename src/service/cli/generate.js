@@ -1,7 +1,6 @@
 'use strict';
 
-const fs = require(`fs`);
-const {getRandomInt, shuffle, getRandomDate} = require(`../../utils`);
+const {getRandomInt, shuffle, getRandomDate, writeJSONFile} = require(`../../utils`);
 
 const DEFAULT_COUNT = 1;
 const MAX_COUNT = 1000;
@@ -43,10 +42,33 @@ const ANNOUNCES = [
   `Альбом стал настоящим открытием года. Мощные гитарные рифы и скоростные соло-партии не дадут заскучать.`,
 ];
 
-const generate = () => {
-  const count = parseInt(process.argv[3], 10) || DEFAULT_COUNT;
+const getTitle = () => {
+  return TITLES[getRandomInt(0, TITLES.length - 1)];
+};
+
+const getCreatedDate = () => {
   const currentDate = new Date();
   const minDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 3, currentDate.getDate());
+
+  return getRandomDate(minDate).toISOString();
+};
+
+const getAnnounce = () => {
+  return shuffle(ANNOUNCES).slice(0, getRandomInt(1, 5)).join(` `);
+};
+
+const getFullText = () => {
+  return shuffle(ANNOUNCES)
+    .slice(0, getRandomInt(1, ANNOUNCES.length - 1))
+    .join(` `);
+};
+
+const getCategory = () => {
+  return shuffle(CATEGORIES).slice(0, getRandomInt(1, CATEGORIES.length - 1));
+};
+
+const generate = () => {
+  const count = parseInt(process.argv[3], 10) || DEFAULT_COUNT;
 
   if (count > MAX_COUNT) {
     console.info(`Не больше 1000 объявлений`);
@@ -56,26 +78,14 @@ const generate = () => {
   const result = Array(count)
     .fill({})
     .map(() => ({
-      title: TITLES[getRandomInt(0, TITLES.length - 1)],
-      createdDate: getRandomDate(minDate).toISOString(),
-      announce: shuffle(ANNOUNCES).slice(0, getRandomInt(1, 5)).join(` `),
-      fullText: shuffle(ANNOUNCES)
-        .slice(0, getRandomInt(1, ANNOUNCES.length - 1))
-        .join(` `),
-      category: shuffle(CATEGORIES).slice(0, getRandomInt(1, CATEGORIES.length - 1)),
+      title: getTitle(),
+      createdDate: getCreatedDate(),
+      announce: getAnnounce(),
+      fullText: getFullText(),
+      category: getCategory(),
     }));
 
-  const data = JSON.stringify(result, ` `, 2);
-
-  fs.writeFile(`mocks.json`, data, (err) => {
-    if (err) {
-      console.error(err);
-      process.exit(1);
-    }
-
-    console.info(`Operation success. File created.`);
-    process.exit(0);
-  });
+  writeJSONFile(`mocks.json`, result);
 };
 
 module.exports = {

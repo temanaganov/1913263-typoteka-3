@@ -15,6 +15,5 @@ module.exports = {
   name: `--help`,
   run() {
     console.info(message);
-    process.exit(0);
   },
 };
