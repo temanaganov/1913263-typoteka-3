@@ -36,9 +36,20 @@ const writeJSONFile = async (path, data) => {
   }
 };
 
+const readFile = async (path) => {
+  try {
+    const data = await fs.readFile(path, `utf-8`);
+    return data.trim().split(`\n`);
+  } catch (error) {
+    console.error(chalk.red(error));
+    return process.exit(1);
+  }
+};
+
 module.exports = {
   getRandomInt,
   shuffle,
   getRandomDate,
   writeJSONFile,
+  readFile,
 };
