@@ -1,6 +1,7 @@
 'use strict';
 
-const fs = require(`fs`);
+const fs = require(`fs`).promises;
+const chalk = require(`chalk`);
 
 const getRandomInt = (min, max) => {
   min = Math.ceil(min);
@@ -25,15 +26,14 @@ const getRandomDate = (min, max = Date.now()) => {
   return new Date(getRandomInt(minTimestamp, maxTimestamp));
 };
 
-const writeJSONFile = (path, data) => {
+const writeJSONFile = async (path, data) => {
   try {
-    fs.writeFileSync(path, JSON.stringify(data, null, 2));
+    await fs.writeFile(path, JSON.stringify(data, null, 2));
+    console.info(chalk.green(`Operation success. File created.`));
   } catch (error) {
-    console.error(error);
+    console.error(chalk.red(error));
     process.exit(1);
   }
-
-  console.info(`Operation success. File created.`);
 };
 
 module.exports = {
