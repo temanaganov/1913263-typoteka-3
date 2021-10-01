@@ -27,13 +27,8 @@ const getRandomDate = (min, max = Date.now()) => {
 };
 
 const writeJSONFile = async (path, data) => {
-  try {
-    await fs.writeFile(path, JSON.stringify(data, null, 2));
-    console.info(chalk.green(`Operation success. File created.`));
-  } catch (error) {
-    console.error(chalk.red(error));
-    process.exit(1);
-  }
+  await fs.writeFile(path, JSON.stringify(data, null, 2));
+  console.info(chalk.green(`Operation success. File created.`));
 };
 
 module.exports = {
