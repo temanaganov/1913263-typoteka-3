@@ -26,13 +26,7 @@ const getRandomDate = (min, max = Date.now()) => {
 };
 
 const writeJSONFile = (path, data) => {
-  try {
-    fs.writeFileSync(path, JSON.stringify(data, null, 2));
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
-  }
-
+  fs.writeFileSync(path, JSON.stringify(data, null, 2));
   console.info(`Operation success. File created.`);
 };
 

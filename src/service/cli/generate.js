@@ -85,7 +85,12 @@ const generate = () => {
       category: getCategory(),
     }));
 
-  writeJSONFile(`mocks.json`, result);
+  try {
+    writeJSONFile(`mocks.json`, result);
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
 };
 
 module.exports = {
