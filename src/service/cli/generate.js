@@ -89,7 +89,7 @@ const generate = async () => {
   try {
     await writeJSONFile(`mocks.json`, result);
   } catch (error) {
-    console.error(error);
+    console.error(chalk.red(error));
     process.exit(1);
   }
 };
