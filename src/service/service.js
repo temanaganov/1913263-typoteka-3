@@ -1,14 +1,19 @@
 'use strict';
 
 const cli = require(`./cli`);
+
 const help = require(`./cli/help`);
 
-const flag = process.argv[2];
+const startService = async () => {
+  const flag = process.argv[2];
 
-if (!flag) {
-  help.run();
-} else {
-  cli[flag].run();
-}
+  if (!flag) {
+    help.run();
+  } else {
+    await cli[flag].run();
+  }
 
-process.exit(0);
+  process.exit(0);
+};
+
+startService();

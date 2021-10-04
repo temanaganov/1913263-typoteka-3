@@ -1,5 +1,6 @@
 'use strict';
 
+const chalk = require(`chalk`);
 const {getRandomInt, shuffle, getRandomDate, writeJSONFile} = require(`../../utils`);
 
 const DEFAULT_COUNT = 1;
@@ -67,11 +68,11 @@ const getCategory = () => {
   return shuffle(CATEGORIES).slice(0, getRandomInt(1, CATEGORIES.length - 1));
 };
 
-const generate = () => {
+const generate = async () => {
   const count = parseInt(process.argv[3], 10) || DEFAULT_COUNT;
 
   if (count > MAX_COUNT) {
-    console.info(`Не больше 1000 объявлений`);
+    console.error(chalk.red(`Не больше 1000 объявлений`));
     process.exit(1);
   }
 
@@ -86,16 +87,14 @@ const generate = () => {
     }));
 
   try {
-    writeJSONFile(`mocks.json`, result);
+    await writeJSONFile(`mocks.json`, result);
   } catch (error) {
-    console.error(error);
+    console.error(chalk.red(error));
     process.exit(1);
   }
 };
 
 module.exports = {
   name: `--generate`,
-  run() {
-    generate();
-  },
+  run: generate,
 };
