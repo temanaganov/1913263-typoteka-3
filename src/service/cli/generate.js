@@ -52,7 +52,12 @@ const generate = async () => {
       category: getCategory(),
     }));
 
-  await writeJSONFile(`mocks.json`, result);
+  try {
+    await writeJSONFile(`mocks.json`, result);
+  } catch (error) {
+    console.error(chalk.red(error));
+    process.exit(1);
+  }
 };
 
 module.exports = {
