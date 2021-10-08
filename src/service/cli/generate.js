@@ -48,11 +48,11 @@ const generate = async () => {
     const result = Array(COUNT)
       .fill({})
       .map(() => ({
-        title: getTitle(TITLES),
+        title: getTitle(TITLES.trim().split(`\n`)),
         createdDate: getCreatedDate(),
-        announce: getAnnounce(ANNOUNCES),
-        fullText: getFullText(ANNOUNCES),
-        category: getCategory(CATEGORIES),
+        announce: getAnnounce(ANNOUNCES.trim().split(`\n`)),
+        fullText: getFullText(ANNOUNCES.trim().split(`\n`)),
+        category: getCategory(CATEGORIES.trim().split(`\n`)),
       }));
 
     await writeJSONFile(`mocks.json`, result);

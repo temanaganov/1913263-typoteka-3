@@ -2,20 +2,18 @@
 
 const chalk = require(`chalk`);
 const http = require(`http`);
+const {readFile} = require(`../../utils`);
 const status = require(`../../status-codes`);
-const data = require(`../../../mocks.json`);
 
-const startServer = async () => {
-  try {
-    const DEFAULT_PORT = 3000;
-    const port = parseInt(process.argv[3], 10) || DEFAULT_PORT;
-    const titles = data.map((item) => item.title);
+const DEFAULT_PORT = 3000;
+const port = parseInt(process.argv[3], 10) || DEFAULT_PORT;
 
-    const listItems = titles.map((title) => `<li>${title}</li>`).join(``);
+const getResponseText = (titles) => {
+  const listItems = titles.map((title) => `<li>${title}</li>`).join(``);
 
-    const responseText = `
+  return `
     <!DOCTYPE html>
-      <html lang="ru">
+    <html lang="ru">
       <head>
         <title>Titles</title>
       </head>
@@ -23,30 +21,41 @@ const startServer = async () => {
         <ul>${listItems}</ul>
       </body>
     </html>`;
+};
 
-    const listener = (req, res) => {
+const startServer = async () => {
+  const listener = async (req, res) => {
+    try {
+      const data = JSON.parse(await readFile(`mocks.json`));
+      const titles = data.map((item) => item.title);
+
       res.writeHead(status.HTTP_SUCCESS_CODE, {
         'Content-Type': `text/html; charset=UTF-8`,
       });
 
       if (req.url === `/`) {
-        res.end(responseText);
+        res.end(getResponseText(titles));
       }
-    };
+    } catch (error) {
+      console.error(chalk.red(error));
 
-    const httpServer = http.createServer(listener);
+      res.writeHead(status.NOT_FOUND, {
+        'Content-Type': `text/html; charset=UTF-8`,
+      });
 
-    httpServer.listen(port, () => {
-      console.info(chalk.green(`Server started at port ${port}`));
-    });
+      res.end(`Not found`);
+    }
+  };
 
-    httpServer.on(`error`, ({message}) => {
-      console.error(chalk.red(`Ошибка: ${message}`));
-    });
-  } catch (error) {
-    console.error(chalk.red(error));
-    process.exit(1);
-  }
+  const httpServer = http.createServer(listener);
+
+  httpServer.listen(port, () => {
+    console.info(chalk.green(`Server started at port ${port}`));
+  });
+
+  httpServer.on(`error`, ({message}) => {
+    console.error(chalk.red(`Ошибка: ${message}`));
+  });
 };
 
 module.exports = {
