@@ -1,0 +1,5 @@
+mixin themes(themes, className = '')
+  ul.themes(class= className)
+    each theme, idx in themes
+      li.themes__item
+        a.themes__item-link(href= theme.href class= (idx + 1) % 5 === 0 ? 'themes__item-link--padding' : '') #{theme.value} #[sup= theme.count]
