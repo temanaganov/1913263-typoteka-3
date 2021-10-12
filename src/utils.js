@@ -32,7 +32,13 @@ const writeJSONFile = async (path, data) => {
 };
 
 const readFile = async (path) => {
-  return await fs.readFile(path, `utf-8`);
+  const data = await fs.readFile(path, `utf-8`);
+  return data.trim().split(`\n`);
+};
+
+const readJSONFile = async (path) => {
+  const data = await fs.readFile(path, `utf-8`);
+  return JSON.parse(data);
 };
 
 module.exports = {
@@ -41,4 +47,5 @@ module.exports = {
   getRandomDate,
   writeJSONFile,
   readFile,
+  readJSONFile,
 };
