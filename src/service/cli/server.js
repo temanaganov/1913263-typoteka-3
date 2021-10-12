@@ -2,7 +2,7 @@
 
 const chalk = require(`chalk`);
 const http = require(`http`);
-const {readFile} = require(`../../utils`);
+const {readJSONFile} = require(`../../utils`);
 const status = require(`../../status-codes`);
 
 const DEFAULT_PORT = 3000;
@@ -26,7 +26,7 @@ const getResponseText = (titles) => {
 const startServer = async () => {
   const listener = async (req, res) => {
     try {
-      const data = JSON.parse(await readFile(`mocks.json`));
+      const data = await readJSONFile(`mocks.json`);
       const titles = data.map((item) => item.title);
 
       res.writeHead(status.HTTP_SUCCESS_CODE, {
