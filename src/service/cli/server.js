@@ -1,12 +1,13 @@
 'use strict';
 
 const chalk = require(`chalk`);
-const http = require(`http`);
+const express = require(`express`);
 const {readFile} = require(`../../utils`);
 const status = require(`../../status-codes`);
 
 const DEFAULT_PORT = 3000;
 const port = parseInt(process.argv[3], 10) || DEFAULT_PORT;
+const app = express();
 
 const getResponseText = (titles) => {
   const listItems = titles.map((title) => `<li>${title}</li>`).join(``);
@@ -23,38 +24,21 @@ const getResponseText = (titles) => {
     </html>`;
 };
 
-const startServer = async () => {
-  const listener = async (req, res) => {
-    try {
-      const data = JSON.parse(await readFile(`mocks.json`));
-      const titles = data.map((item) => item.title);
+app.get(`/`, async (req, res) => {
+  try {
+    const data = JSON.parse(await readFile(`mocks.json`));
+    const titles = data.map((item) => item.title);
+    res.send(getResponseText(titles));
+  } catch (error) {
+    console.error(chalk.red(error));
+    res.status(status.NOT_FOUND);
+    res.send(`Not found`);
+  }
+});
 
-      res.writeHead(status.HTTP_SUCCESS_CODE, {
-        'Content-Type': `text/html; charset=UTF-8`,
-      });
-
-      if (req.url === `/`) {
-        res.end(getResponseText(titles));
-      }
-    } catch (error) {
-      console.error(chalk.red(error));
-
-      res.writeHead(status.NOT_FOUND, {
-        'Content-Type': `text/html; charset=UTF-8`,
-      });
-
-      res.end(`Not found`);
-    }
-  };
-
-  const httpServer = http.createServer(listener);
-
-  httpServer.listen(port, () => {
+const startServer = () => {
+  app.listen(port, () => {
     console.info(chalk.green(`Server started at port ${port}`));
-  });
-
-  httpServer.on(`error`, ({message}) => {
-    console.error(chalk.red(`Ошибка: ${message}`));
   });
 };
 
