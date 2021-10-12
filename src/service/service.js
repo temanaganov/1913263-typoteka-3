@@ -1,7 +1,6 @@
 'use strict';
 
 const cli = require(`./cli`);
-
 const help = require(`./cli/help`);
 
 const startService = async () => {
@@ -13,7 +12,9 @@ const startService = async () => {
     await cli[flag].run();
   }
 
-  process.exit(0);
+  if (flag !== `--server`) {
+    process.exit(0);
+  }
 };
 
 startService();

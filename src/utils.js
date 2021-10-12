@@ -36,10 +36,16 @@ const readFile = async (path) => {
   return data.trim().split(`\n`);
 };
 
+const readJSONFile = async (path) => {
+  const data = await fs.readFile(path, `utf-8`);
+  return JSON.parse(data);
+};
+
 module.exports = {
   getRandomInt,
   shuffle,
   getRandomDate,
   writeJSONFile,
   readFile,
+  readJSONFile,
 };
