@@ -4,7 +4,8 @@
   "description": "Типотека",
   "main": "./src/service/service.js",
   "scripts": {
-    "start": "nodemon ./src/service/service.js --server 3000",
+    "start": "node ./src/service/service.js",
+    "start-server": "nodemon ./src/service/service.js --server 3000",
     "start-front-server": "node ./src/express/express.js",
     "test": "npm run eslint",
     "eslint": "eslint --ext .js src/"
@@ -28,5 +29,8 @@
     "chalk": "4.1.2",
     "express": "4.17.1",
     "pug": "3.0.2"
+  },
+  "nodemonConfig": {
+    "ignore": ["mocks.json"]
   }
 }
