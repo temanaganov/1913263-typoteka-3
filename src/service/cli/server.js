@@ -31,8 +31,7 @@ app.get(`/`, async (req, res) => {
     res.send(getResponseText(titles));
   } catch (error) {
     console.error(chalk.red(error));
-    res.status(status.NOT_FOUND);
-    res.send(`Not found`);
+    res.status(status.NOT_FOUND).send(`Not found`);
   }
 });
 
