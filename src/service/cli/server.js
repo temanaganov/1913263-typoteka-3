@@ -1,7 +1,10 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable indent */
 'use strict';
 
 const chalk = require(`chalk`);
 const express = require(`express`);
+const asyncHandler = require(`express-async-handler`);
 const {readJSONFile} = require(`../../utils`);
 const status = require(`../../status-codes`);
 
@@ -24,16 +27,15 @@ const getResponseText = (titles) => {
     </html>`;
 };
 
-app.get(`/`, async (req, res) => {
-  try {
+app.get(
+  `/`,
+  asyncHandler(async (req, res, next) => {
     const data = await readJSONFile(`mocks.json`);
     const titles = data.map((item) => item.title);
     res.send(getResponseText(titles));
-  } catch (error) {
-    console.error(chalk.red(error));
     res.status(status.NOT_FOUND).send(`Not found`);
-  }
-});
+  })
+);
 
 const startServer = () => {
   app.listen(port, () => {
