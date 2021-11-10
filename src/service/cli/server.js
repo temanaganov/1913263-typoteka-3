@@ -7,10 +7,15 @@ const express = require(`express`);
 const asyncHandler = require(`express-async-handler`);
 const {readJSONFile} = require(`../../utils`);
 const status = require(`../../status-codes`);
+const apiRouter = require(`../api`);
+
 
 const DEFAULT_PORT = 3000;
 const port = parseInt(process.argv[3], 10) || DEFAULT_PORT;
 const app = express();
+
+app.use(express.json());
+app.use(`/api`, apiRouter);
 
 const getResponseText = (titles) => {
   const listItems = titles.map((title) => `<li>${title}</li>`).join(``);
