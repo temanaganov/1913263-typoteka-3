@@ -1,7 +1,9 @@
 'use strict';
 
 const chalk = require(`chalk`);
+const {nanoid} = require(`nanoid`);
 const {getRandomInt, shuffle, getRandomDate, writeJSONFile, readFile} = require(`../../utils`);
+const {MAX_ID_LENGTH} = require(`../../constants`);
 
 const DEFAULT_COUNT = 1;
 const MAX_COUNT = 1000;
@@ -32,6 +34,17 @@ const getCategory = (categories) => {
   return shuffle(categories).slice(0, getRandomInt(1, categories.length - 1));
 };
 
+const getComments = (comments) => {
+  const count = getRandomInt(1, 4);
+
+  return Array(count)
+    .fill({})
+    .map(() => ({
+      id: nanoid(MAX_ID_LENGTH),
+      text: shuffle(comments).slice(0, getRandomInt(1, 3)).join(` `),
+    }));
+};
+
 const generate = async () => {
   try {
     if (COUNT > MAX_COUNT) {
@@ -39,20 +52,23 @@ const generate = async () => {
       process.exit(1);
     }
 
-    const [TITLES, ANNOUNCES, CATEGORIES] = await Promise.all([
+    const [TITLES, ANNOUNCES, CATEGORIES, COMMENTS] = await Promise.all([
       readFile(`data/titles.txt`),
       readFile(`data/sentences.txt`),
       readFile(`data/categories.txt`),
+      readFile(`data/comments.txt`),
     ]);
 
     const result = Array(COUNT)
       .fill({})
       .map(() => ({
+        id: nanoid(MAX_ID_LENGTH),
         title: getTitle(TITLES),
         createdDate: getCreatedDate(),
         announce: getAnnounce(ANNOUNCES),
         fullText: getFullText(ANNOUNCES),
         category: getCategory(CATEGORIES),
+        comments: getComments(COMMENTS),
       }));
 
     await writeJSONFile(`mocks.json`, result);
