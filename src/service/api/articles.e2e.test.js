@@ -263,3 +263,19 @@ test(`API refuses to delete non-existent article`, async () => {
   const app = createAPI();
   await request(app).delete(`/articles/NOEXST`).expect(HttpCode.NOT_FOUND);
 });
+
+test(`API refuses to create a comment to non-existent article and returns status code 404`, () => {
+  const app = createAPI();
+
+  return request(app).post(`/articles/NOEXST/comments`).send({
+    text: `Неважно`,
+  }).expect(HttpCode.NOT_FOUND);
+});
+
+test(`API refuses to delete non-existent comment`, () => {
+  const app = createAPI();
+
+  return request(app)
+    .delete(`/articles/nZFZw0/comments/NOEXST`)
+    .expect(HttpCode.NOT_FOUND);
+});
