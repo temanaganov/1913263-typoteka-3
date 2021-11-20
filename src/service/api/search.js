@@ -10,9 +10,14 @@ module.exports = (app, service) => {
 
   searchRouter.get(`/`, async (req, res) => {
     const {query} = req.query;
+
+    if (!query) {
+      return res.status(HttpCode.BAD_REQUEST).send(`Query string is absent`);
+    }
+
     const result = await service.find(query);
 
-    if (!result) {
+    if (!result.length > 0) {
       return res.status(HttpCode.NOT_FOUND).send(`Not found`);
     }
 

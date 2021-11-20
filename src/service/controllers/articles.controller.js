@@ -24,6 +24,9 @@ class ArticlesController {
 
   update(articleId, article) {
     const oldArticle = this._articles.find((item) => item.id === articleId);
+    this._articles = this._articles.map((item) =>
+      item.id === articleId ? {...oldArticle, ...article} : item
+    );
     return {...oldArticle, ...article};
   }
 

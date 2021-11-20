@@ -34,7 +34,7 @@ module.exports = (app, articleService, commentService) => {
     return res.status(HttpCode.CREATED).json(newArticle);
   });
 
-  articlesRouter.put(`/:articleId`, articleExists(articleService), async (req, res) => {
+  articlesRouter.put(`/:articleId`, articleExists(articleService), articleValidator, async (req, res) => {
     const {articleId} = req.params;
     const article = req.body;
     const newArticle = await articleService.update(articleId, article);
