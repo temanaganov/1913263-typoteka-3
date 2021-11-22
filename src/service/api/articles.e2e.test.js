@@ -5,8 +5,7 @@ const express = require(`express`);
 const request = require(`supertest`);
 const HttpCode = require(`../../status-codes`);
 const articlesRouter = require(`./articles`);
-const ArticlesController = require(`../controllers/articles.controller`);
-const CommentsController = require(`../controllers/comments.controller`);
+const ArticlesRepository = require(`../repositories/articles.repository`);
 
 const mockData = [
   {
@@ -126,7 +125,7 @@ const createAPI = () => {
   const app = express();
   const cloneData = [...mockData];
   app.use(express.json());
-  articlesRouter(app, new ArticlesController(cloneData), new CommentsController());
+  articlesRouter(app, new ArticlesRepository(cloneData));
   return app;
 };
 

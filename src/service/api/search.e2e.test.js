@@ -5,7 +5,7 @@ const express = require(`express`);
 const request = require(`supertest`);
 const HttpCode = require(`../../status-codes`);
 const searchRouter = require(`./search`);
-const SearchController = require(`../controllers/search.controller`);
+const SearchRepository = require(`../repositories/search.repository`);
 
 const mockData = [
   {
@@ -146,7 +146,7 @@ const mockData = [
 
 const app = express();
 app.use(express.json());
-searchRouter(app, new SearchController(mockData));
+searchRouter(app, new SearchRepository(mockData));
 
 describe(`API returns offer based on search query`, () => {
   let response;

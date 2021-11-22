@@ -5,7 +5,7 @@ const express = require(`express`);
 const request = require(`supertest`);
 const HttpCode = require(`../../status-codes`);
 const categoriesRouter = require(`./categories`);
-const CategoriesController = require(`../controllers/categories.controller`);
+const CategoriesRepository = require(`../repositories/categories.repository`);
 
 const mockData = [
   {
@@ -123,7 +123,7 @@ const mockData = [
 
 const app = express();
 app.use(express.json());
-categoriesRouter(app, new CategoriesController(mockData));
+categoriesRouter(app, new CategoriesRepository(mockData));
 
 describe(`API returns category list`, () => {
   let response;

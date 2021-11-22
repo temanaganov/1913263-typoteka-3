@@ -5,19 +5,18 @@ const articlesRouter = require(`./articles`);
 const categoriesRouter = require(`./categories`);
 const searchRouter = require(`./search`);
 const getMockData = require(`../lib/get-mock-data`);
-const ArticlesController = require(`../controllers/articles.controller`);
-const CategoriesController = require(`../controllers/categories.controller`);
-const CommentsController = require(`../controllers/comments.controller`);
-const SearchController = require(`../controllers/search.controller`);
+const ArticlesRepository = require(`./../repositories/articles.repository`);
+const CategoriesRepository = require(`../repositories/categories.repository`);
+const SearchRepository = require(`../repositories/search.repository`);
 
 const app = new Router();
 
 (async () => {
   const mockData = await getMockData();
 
-  articlesRouter(app, new ArticlesController(mockData), new CommentsController(mockData));
-  categoriesRouter(app, new CategoriesController(mockData));
-  searchRouter(app, new SearchController(mockData));
+  articlesRouter(app, new ArticlesRepository(mockData));
+  categoriesRouter(app, new CategoriesRepository(mockData));
+  searchRouter(app, new SearchRepository(mockData));
 })();
 
 module.exports = app;
