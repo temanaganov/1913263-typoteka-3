@@ -130,10 +130,11 @@ const createAPI = () => {
 };
 
 describe(`API returns a list of all articles`, () => {
-  const app = createAPI();
+  let app;
   let response;
 
   beforeAll(async () => {
+    app = createAPI();
     response = await request(app).get(`/articles`);
   });
 
@@ -143,10 +144,11 @@ describe(`API returns a list of all articles`, () => {
 });
 
 describe(`API returns an article with given id`, () => {
-  const app = createAPI();
+  let app;
   let response;
 
   beforeAll(async () => {
+    app = createAPI();
     response = await request(app).get(`/articles/nZFZw0`);
   });
 
@@ -162,10 +164,11 @@ describe(`API creates an article if data is valid`, () => {
     category: `Котики`,
   };
 
-  const app = createAPI();
+  let app;
   let response;
 
   beforeAll(async () => {
+    app = createAPI();
     response = await request(app).post(`/articles`).send(newArticle);
   });
 
@@ -184,7 +187,11 @@ describe(`API refuses to create an article if data is invalid`, () => {
     category: `Котики`,
   };
 
-  const app = createAPI();
+  let app;
+
+  beforeAll(() => {
+    app = createAPI();
+  });
 
   test(`Without any required property response code is 400`, async () => {
     for (const key of Object.keys(newArticle)) {
@@ -203,10 +210,11 @@ describe(`API changes existent article`, () => {
     category: `Котики`,
   };
 
-  const app = createAPI();
+  let app;
   let response;
 
   beforeAll(async () => {
+    app = createAPI();
     response = await request(app).put(`/articles/nZFZw0`).send(newArticle);
   });
 
@@ -244,10 +252,11 @@ test(`API returns status code 400 when trying to change an article with invalid 
 });
 
 describe(`API correctly deletes an article`, () => {
-  const app = createAPI();
+  let app;
   let response;
 
   beforeAll(async () => {
+    app = createAPI();
     response = await request(app).delete(`/articles/nZFZw0`);
   });
 
