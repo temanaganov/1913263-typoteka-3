@@ -3,9 +3,9 @@
 const {Router} = require(`express`);
 const HttpCode = require(`../../status-codes`);
 
-const searchRouter = new Router();
 
 module.exports = (app, service) => {
+  const searchRouter = new Router();
   app.use(`/search`, searchRouter);
 
   searchRouter.get(`/`, async (req, res) => {
