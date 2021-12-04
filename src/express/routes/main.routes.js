@@ -1,8 +1,10 @@
 'use strict';
 
 const {Router} = require(`express`);
+const {getAPI} = require(`../api`);
 
 const mainRouter = new Router();
+const api = getAPI();
 
 const mainThemes = [
   {value: `Автомобили`, count: 88, href: `#`},
@@ -14,10 +16,26 @@ const mainThemes = [
   {value: `UX & UI`, count: 22, href: `#`},
 ];
 
-mainRouter.get(`/`, (req, res) => res.render(`main`, {themes: mainThemes}));
+mainRouter.get(`/`, async (req, res) => {
+  const articles = await api.getArticles();
+  res.render(`main`, {themes: mainThemes, articles});
+});
 mainRouter.get(`/register`, (req, res) => res.render(`sign-up`));
 mainRouter.get(`/login`, (req, res) => res.render(`login`));
-mainRouter.get(`/search`, (req, res) => res.render(`search`));
+mainRouter.get(`/search`, async (req, res) => {
+  const {query} = req.query;
+
+  if (!query) {
+    return res.render(`search`);
+  }
+
+  try {
+    const result = await api.search(query, {result: {}});
+    return res.render(`search`, {result});
+  } catch (err) {
+    return res.render(`search`, {result: []});
+  }
+});
 mainRouter.get(`/categories`, (req, res) => res.send(req.baseUrl + req.url));
 
 module.exports = mainRouter;

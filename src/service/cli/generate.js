@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 'use strict';
 
 const chalk = require(`chalk`);
@@ -64,9 +65,9 @@ const generate = async () => {
       .map(() => ({
         id: nanoid(MAX_ID_LENGTH),
         title: getTitle(TITLES),
-        createdDate: getCreatedDate(),
-        announce: getAnnounce(ANNOUNCES),
-        fullText: getFullText(ANNOUNCES),
+        date: getCreatedDate(),
+        announcement: getAnnounce(ANNOUNCES),
+        full_text: getFullText(ANNOUNCES),
         category: getCategory(CATEGORIES),
         comments: getComments(COMMENTS),
       }));

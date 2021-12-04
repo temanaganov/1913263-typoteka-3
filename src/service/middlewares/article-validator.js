@@ -2,7 +2,7 @@
 
 const HttpCode = require(`../../status-codes`);
 
-const articleKeys = [`title`, `announce`, `fullText`, `category`];
+const articleKeys = [`title`, `date`, `announcement`, `category`];
 
 module.exports = (req, res, next) => {
   const newArticle = req.body;

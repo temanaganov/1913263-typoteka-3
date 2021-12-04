@@ -17,6 +17,7 @@ app.set(`view engine`, `pug`);
 app.locals.basedir = app.get(`views`);
 
 app.use(express.static(path.resolve(__dirname, `public`)));
+app.use(express.urlencoded({extended: false}));
 app.use(`/articles`, articlesRouter);
 app.use(`/my`, myRouter);
 app.use(`/`, mainRouter);
