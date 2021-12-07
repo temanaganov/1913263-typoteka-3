@@ -1,6 +1,6 @@
 'use strict';
 
-class CategoriesController {
+class CategoriesRepository {
   constructor(articles) {
     this._articles = articles;
   }
@@ -15,4 +15,4 @@ class CategoriesController {
   }
 }
 
-module.exports = CategoriesController;
+module.exports = CategoriesRepository;

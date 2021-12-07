@@ -3,9 +3,9 @@
 const {Router} = require(`express`);
 const HttpCode = require(`../../status-codes`);
 
-const categoryRouter = new Router();
 
 module.exports = (app, service) => {
+  const categoryRouter = new Router();
   app.use(`/categories`, categoryRouter);
 
   categoryRouter.get(`/`, async (req, res) => {
