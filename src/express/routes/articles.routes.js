@@ -12,7 +12,7 @@ articlesRouter.get(`/add`, (req, res) => res.render(`create-post`));
 
 articlesRouter.get(`/edit/:id`, async (req, res) => {
   const {id} = req.params;
-  const article = api.getArticle(id);
+  const article = await api.getArticle(id);
   res.render(`edit-post`, {article});
 });
 
