@@ -17,7 +17,7 @@ class ArticlesRepository {
   }
 
   create(article) {
-    const newArticle = {...article, id: nanoid(MAX_ID_LENGTH), createdDate: new Date().toISOString(), comments: []};
+    const newArticle = {...article, id: nanoid(MAX_ID_LENGTH), comments: []};
     this._articles.push(newArticle);
     return newArticle;
   }
