@@ -13,6 +13,8 @@ CREATE TABLE users (
   avatar VARCHAR(255) NOT NULL
 );
 
+ALTER TABLE users OWNER to artemnaganov;
+
 CREATE TABLE articles (
   id SERIAL PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
@@ -26,10 +28,14 @@ CREATE TABLE articles (
     ON UPDATE CASCADE
 );
 
+ALTER TABLE articles OWNER to artemnaganov;
+
 CREATE TABLE categories (
   id SERIAL PRIMARY KEY,
   title VARCHAR(30) NOT NULL
 );
+
+ALTER TABLE categories OWNER to artemnaganov;
 
 CREATE TABLE comments (
   id SERIAL PRIMARY KEY,
@@ -45,6 +51,8 @@ CREATE TABLE comments (
     ON UPDATE CASCADE
 );
 
+ALTER TABLE comments OWNER to artemnaganov;
+
 CREATE TABLE articles_categories (
   article_id INTEGER NOT NULL,
   category_id INTEGER NOT NULL,
@@ -56,5 +64,7 @@ CREATE TABLE articles_categories (
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
+
+ALTER TABLE articles_categories OWNER to artemnaganov;
 
 CREATE INDEX ON articles(title);
