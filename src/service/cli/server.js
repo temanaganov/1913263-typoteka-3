@@ -2,13 +2,13 @@
 /* eslint-disable indent */
 'use strict';
 
-const chalk = require(`chalk`);
 const express = require(`express`);
 const asyncHandler = require(`express-async-handler`);
 const {readJSONFile} = require(`../../utils`);
 const status = require(`../../status-codes`);
 const apiRouter = require(`../api`);
 const {getLogger} = require(`../lib/logger`);
+const sequelize = require(`../lib/sequelize`);
 const HttpCode = require(`../../status-codes`);
 
 const DEFAULT_PORT = 3000;
@@ -76,7 +76,18 @@ const startServer = () => {
   }
 };
 
+const dbAuthenticate = async () => {
+  try {
+    logger.info(`Trying to connect to database...`);
+    await sequelize.authenticate();
+    logger.info(`Successfully connected to database...`);
+  } catch (err) {
+    logger.error(`An error occurred: ${err.message}`);
+    process.exit(1);
+  }
+};
+
 module.exports = {
   name: `--server`,
-  run: startServer,
+  run: dbAuthenticate,
 };
