@@ -10,6 +10,20 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+const getRandomSubarray = (items) => {
+  items = items.slice();
+  let count = getRandomInt(1, items.length - 1);
+  const result = [];
+  while (count--) {
+    result.push(
+        ...items.splice(
+            getRandomInt(0, items.length - 1), 1
+        )
+    );
+  }
+  return result;
+};
+
 const shuffle = (someArray) => {
   for (let i = someArray.length - 1; i > 0; i--) {
     const randomPosition = Math.floor(Math.random() * i);
@@ -43,6 +57,7 @@ const readJSONFile = async (path) => {
 
 module.exports = {
   getRandomInt,
+  getRandomSubarray,
   shuffle,
   getRandomDate,
   writeJSONFile,
