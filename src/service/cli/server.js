@@ -9,6 +9,7 @@ const status = require(`../../status-codes`);
 const apiRouter = require(`../api`);
 const {getLogger} = require(`../lib/logger`);
 const sequelize = require(`../lib/sequelize`);
+const defineModels = require(`../models`);
 const HttpCode = require(`../../status-codes`);
 
 const DEFAULT_PORT = 3000;
@@ -80,6 +81,8 @@ const dbAuthenticate = async () => {
   try {
     logger.info(`Trying to connect to database...`);
     await sequelize.authenticate();
+    defineModels(sequelize);
+    await sequelize.sync();
     logger.info(`Successfully connected to database...`);
   } catch (err) {
     logger.error(`An error occurred: ${err.message}`);

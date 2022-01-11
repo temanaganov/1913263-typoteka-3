@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/temanaganov/1913263-typoteka-3#readme",
   "devDependencies": {
+    "@types/sequelize": "4.28.11",
     "eslint": "7.32.0",
     "eslint-config-htmlacademy": "0.6.0",
     "jest": "27.3.1",
